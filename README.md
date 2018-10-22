@@ -1,3 +1,3 @@
-# `nbrr`: Notebook Reproducible Repositories
+# `nbrr`: Notebook Reproducible Repos
 
-`nbrr` aims to make it facilitate the creation of GitHub repositories, with code and notebooks, that are easy to run and reproducible.
+`nbrr` aims to facilitate the creation of GitHub repositories, with code and notebooks, that are easy to run on binder.
