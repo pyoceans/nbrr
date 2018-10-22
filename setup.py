@@ -44,7 +44,7 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     entry_points={
         'console_scripts': [
-            'nbrr = nbrr.nbrr:cli',
+            'nbrr = nbrr.nbrr:NBRR',
         ],
     },
 )

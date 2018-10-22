@@ -1,17 +1,18 @@
 import glob
 import sys
+import textwrap
 
 import depfinder
 
 import easyargs
 
+from git import Repo
+
 from ruamel.yaml import YAML
 
 
+
 def binder_url(user, repo):
-    # from github import Github
-    # g = Github()
-    # http://mybinder.org/badge.svg
     return f'https://mybinder.org/v2/gh/{user}/{repo}/master'
 
 
@@ -48,20 +49,43 @@ def make_env_file(dependencies, channels, name):
     yaml.dump(env, sys.stdout)
 
 
-@easyargs
-def cli(directory='.', channels=['conda-forge'], name='my-env'):
-    dependencies = parse_pyfiles(directory=directory)
-    notebooks = _find_notebooks()
-    for notebook in notebooks:
-        dependencies.extend(parse_notebook(notebook))
-    dependencies = sorted(set(dependencies))
+def _get_repo(directory):
+    repo = Repo(directory)
+    origin = list(repo.remotes.origin.urls)[0]
+    origin_url = origin.rsplit('.git', 1)[0]
+    if origin_url.startswith('http'):
+        return origin_url.rsplit('/', 2)[-2::]
+    elif origin_url.startswith('git'):
+        return origin_url.rsplit(':')[1].split('/')
+    else:
+        raise ValueError(f'Could not parse repository for {directory}.')
 
-    make_env_file(
-        dependencies=dependencies,
-        channels=channels,
-        name=name,
-        )
+@easyargs
+class NBRR(object):
+    def env(self, directory='.', channels=['conda-forge'], name='my-env'):
+        dependencies = parse_pyfiles(directory=directory)
+        notebooks = _find_notebooks()
+        for notebook in notebooks:
+            dependencies.extend(parse_notebook(notebook))
+        dependencies = sorted(set(dependencies))
+
+        make_env_file(
+            dependencies=dependencies,
+            channels=channels,
+            name=name,
+            )
+    
+    def readme(self, directory='.', summary=None):
+        user, repo = _get_repo(directory=directory)
+        url = binder_url(user, repo)
+        if not summary:
+            summary = 'Add your project summary here!'
+        return textwrap.dedent(f"""
+        # {summary}
+
+        [http://mybinder.org/badge.svg]({url})
+        """)
 
 
 if __name__ == '__main__':
-    cli()
+    NBRR()
