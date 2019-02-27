@@ -1,3 +1,7 @@
-# `nbrr`: Notebook Reproducible Repos
+# `nbrr`: Jupyter Notebook Reproducible Repositories
 
-`nbrr` aims to facilitate the creation of GitHub repositories, with code and notebooks, that are easy to run on binder.
+You create the notebooks, ``nbrr`` will do the rest:
+
+- ``environment.yml`` file for ``conda``;
+- ``README.md`` with a binder link for your GitHub repository;
+- ``Travis-CI`` and ``AppVeyor`` configuration.
