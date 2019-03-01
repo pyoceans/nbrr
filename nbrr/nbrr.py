@@ -164,7 +164,7 @@ class NBRR(object):
               # The option `--nbval-lax` won't compare the notebooks cell results,
               # it will only run them! Use `--nbval` instead if you wish to validate outputs.
               - pytest --nbval-lax -p no:python {notebooks_path}
-            """
+            """  # noqa
         )
         sys.stdout.writelines(yml)
 
@@ -207,7 +207,7 @@ class NBRR(object):
             ## Binder
 
             {binder}
-            """
+            """  # noqa
         )
         sys.stdout.writelines(txt)
 
