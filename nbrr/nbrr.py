@@ -70,9 +70,9 @@ class NBRR(object):
     """Easy environment.yaml and README files for your notebook collection."""
 
     def env(
-        self, directory=".", channels="conda-forge,defaults", name="my-env"
+        self, notebooks_path=".", channels="conda-forge,defaults", name="my-env"
     ):
-        dependencies = parse_pyfiles(directory=directory)
+        dependencies = parse_pyfiles(directory=notebooks_path)
         notebooks = _find_notebooks()
         for notebook in notebooks:
             dependencies.extend(parse_notebook(notebook))
