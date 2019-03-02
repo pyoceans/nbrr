@@ -38,7 +38,8 @@ def test__make_env_file():
     expected = textwrap.dedent(
         """\
     name: TEST-ENV
-    channels: conda-forge
+    channels:
+      - conda-forge
     dependencies:
       - matplotlib
       - numpy
