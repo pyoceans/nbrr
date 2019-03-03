@@ -27,7 +27,7 @@ setup(
     author="Filipe Fernandes",
     author_email="ocefpaf@gmail.com",
     url="https://github.com/pyoceans/nbrr",
-    keywords=["Reproducibility", "Scientific Python", "Jupyter"],
+    keywords=["Reproducibility", "Scientific Python", "Jupyter", "GitHub"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: BSD License",
