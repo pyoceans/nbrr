@@ -36,7 +36,7 @@ setup(
     ],
     packages=find_packages(),
     extras_require={"testing": ["pytest"]},
-    license='BSD-3-Clause',
+    license="BSD-3-Clause",
     install_requires=install_requires,
     cmdclass=versioneer.get_cmdclass(),
     entry_points={"console_scripts": ["nbrr = nbrr.nbrr:NBRR"]},

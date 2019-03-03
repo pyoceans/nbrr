@@ -19,22 +19,26 @@ def parse_notebook(fname):
         ]
     else:
         raise ValueError(f"Cannot parse file {fname}.")
-    return sorted(dependencies)
+    return dependencies
 
 
 def parse_pyfiles(directory="."):
     """Return the list of required dependencies for all .py files in a directory."""
     deps = depfinder.main.simple_import_search(directory)
     dependencies = deps.get("required")
-    return sorted(dependencies) if dependencies else []
+    return dependencies if dependencies else []
 
 
 def _find_notebooks(directory="."):
     return glob.iglob(f"{directory}/**/*.ipynb", recursive=True)
 
 
-def _make_env_file(dependencies, channels, name):
+def _make_env_file(dependencies, channels, name, extras=None):
+    if extras:
+        extras = extras.split(",")
+        dependencies.extend(extras)
     dependencies = [CONDA_NAMES.get(item, item) for item in dependencies]
+    dependencies = sorted(set(dependencies))
     channels = channels.split(",")
     env = {"name": name, "channels": channels, "dependencies": dependencies}
     yaml = YAML()
@@ -67,18 +71,28 @@ def _binder_badge(repository=".", notebook_path=None, branch="master"):
 
 @easyargs
 class NBRR(object):
-    """Easy environment.yaml and README files for your notebook collection."""
+    """Easy environment.yml and README files for your notebook collection."""
 
     def env(
-        self, notebooks_path=".", channels="conda-forge,defaults", name="my-env"
+        self,
+        extras="python",
+        notebooks_path=".",
+        channels="conda-forge,defaults",
+        name="my-env",
     ):
         dependencies = parse_pyfiles(directory=notebooks_path)
         notebooks = _find_notebooks()
         for notebook in notebooks:
             dependencies.extend(parse_notebook(notebook))
+        # Jupyter is hardcoded b/c nbrr is designed for notebooks after all ;-p
+        dependencies.append("jupyter")
         dependencies = sorted(set(dependencies))
-
-        _make_env_file(dependencies=dependencies, channels=channels, name=name)
+        _make_env_file(
+            dependencies=dependencies,
+            channels=channels,
+            name=name,
+            extras=extras,
+        )
 
     def travis(self, notebooks_path="notebooks"):
         yml = textwrap.dedent(
