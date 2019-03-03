@@ -29,10 +29,10 @@ setup(
     url="https://github.com/pyoceans/nbrr",
     keywords=["Reproducibility", "Scientific Python", "Jupyter"],
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "Topic :: Scientific/Engineering :: Science",
-        "License :: OSI Approved :: BSD License",
         "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: BSD License",
+        "Programming Language :: Python :: 3 :: Only",
+        "Topic :: Scientific/Engineering",
     ],
     packages=find_packages(),
     extras_require={"testing": ["pytest"]},
