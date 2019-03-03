@@ -12,18 +12,23 @@ You create the notebooks, ``nbrr`` will do the rest!
 - ``environment.yml`` file for ``conda``:
 
 ```shell
-nbrr env --notebooks_path . --channel conda-forge --name MyEnv > environment.yml
+nbrr env --notebooks_path . --channel conda-forge --name MyEnv --extras "python=3.6,r-base=3.4.2,julia,xlrd,rise" > environment.yml
 ```
 
-- ``Travis-CI`` and ``AppVeyor`` configurations:
+The extras allow us to add anything that is not captured by the dependency finder.
+
+- ``AppVeyor`` and ``Travis-CI`` configurations:
+
+
+```shell
+nbrr appveyor --notebooks_path . > .appveyor.yml
+```
 
 ```shell
 nbrr travis --notebooks_path . > .travis.yml
 ```
 
-```shell
-nbrr appveyor --notebooks_path . > .appveyor.yml
-```
+Note that ``Travis-CI`` is setup for both Linux and macOS.
 
 - ``README.md`` with a binder link for your GitHub repository:
 
