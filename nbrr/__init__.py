@@ -1,4 +1,6 @@
-from ._version import get_versions
+"""NBRR."""
 
-__version__ = get_versions()["version"]
-del get_versions
+try:
+    from ._version import __version__
+except ImportError:
+    __version__ = "unknown"

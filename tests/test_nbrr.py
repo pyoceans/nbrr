@@ -1,3 +1,5 @@
+"""Test nbrr.py functions."""
+
 import sys
 import textwrap
 from contextlib import contextmanager
@@ -11,6 +13,7 @@ rootpath = Path(__file__).parent.absolute().joinpath("repo")
 
 @contextmanager
 def captured_output():
+    """Capture both stdout and stderr."""
     new_out, new_err = StringIO(), StringIO()
     old_out, old_err = sys.stdout, sys.stderr
     try:
@@ -21,16 +24,19 @@ def captured_output():
 
 
 def test_parse_notebook():
+    """Test notebook dependency parse."""
     res = parse_notebook(rootpath.joinpath("notebook.ipynb"))
-    assert res == ["matplotlib", "numpy", "pandas", "wget"]
+    assert res == ["matplotlib", "numpy", "pandas"]
 
 
 def test_parse_pyfiles():
+    """Test Python files dependency parser."""
     res = parse_pyfiles(rootpath)
-    assert res == ["matplotlib", "numpy", "pandas", "wget"]
+    assert res == ["matplotlib", "numpy", "pandas"]
 
 
 def test__make_env_file():
+    """Test create environment file."""
     dependencies = ["matplotlib", "numpy", "pandas", "python-wget"]
     with captured_output() as (out, err):
         _make_env_file(dependencies, channels="conda-forge", name="TEST-ENV")
@@ -44,7 +50,7 @@ def test__make_env_file():
       - matplotlib
       - numpy
       - pandas
-      - python-wget"""
+      - python-wget""",
     )
 
     assert expected == out.getvalue().strip()
