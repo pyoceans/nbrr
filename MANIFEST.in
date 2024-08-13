@@ -1,6 +1,17 @@
 include *.txt
 include README.md
+include pyproject.toml
 
-recursive-include nbrr *.py
-include versioneer.py
-include nbrr/_version.py
+graft nbrr
+
+prune .github
+prune *.egg-info
+prune tests
+
+exclude .coveragerc
+exclude ruff.toml
+exclude .gitignore
+exclude .isort.cfg
+exclude .pre-commit-config.yaml
+exclude *.yml
+exclude nbrr/_version.py

@@ -1,0 +1,73 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools>=42",
+  "setuptools_scm",
+  "wheel",
+]
+
+[project]
+name = "nbrr"
+description = "Jupyter Notebooks Reproducible Repositories"
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+maintainers = [
+    {name = "Filipe Fernandes", email = "ocefpaf+nbrr@gmail.com"},
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+  "dependencies",
+  "version",
+]
+[project.urls]
+documentation = "https://pyoceans.github.io/nbrr"
+homepage = "https://github.com/pyoceans/nbrr"
+repository = "https://github.com/pyoceans/nbrr"
+
+[project.scripts]
+nbrr = "nbrr.nbrr:NBRR"
+
+[tool.setuptools]
+packages = ["nbrr"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools_scm]
+write_to = "nbrr/_version.py"
+write_to_template = "__version__ = '{version}'"
+tag_regex = "^(?P<prefix>v)?(?P<version>[^\\+]+)(?P<suffix>.*)?$"
+
+[tool.check-manifest]
+ignore = [
+    "Makefile",
+    "tests",
+    "tests/*",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "error:::nbrr.*",
+    "ignore::UserWarning",
+    "ignore::RuntimeWarning",
+]
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-module = false
+fail-under = 85
+exclude = ["docs", "tests"]
+verbose = 1
+quiet = false
+color = true

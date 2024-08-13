@@ -1,0 +1,89 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.6.0
+  hooks:
+    - id: trailing-whitespace
+    - id: check-ast
+    - id: debug-statements
+    - id: end-of-file-fixer
+    - id: check-docstring-first
+    - id: check-added-large-files
+      exclude_types: [yaml]
+    - id: requirements-txt-fixer
+    - id: file-contents-sorter
+      files: requirements-dev.txt
+
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: v1.11.1
+  hooks:
+  - id: mypy
+    exclude: docs/source/conf.py
+    entry: bash -c 'exec env CONDA_PREFIX="$(python -c "import sys; print(sys.executable)")"'
+    args: ["--ignore-missing-imports", "--python-executable=CONDA_PREFIX"]
+
+- repo: https://github.com/keewis/blackdoc
+  rev: v0.3.9
+  hooks:
+    - id: blackdoc
+
+- repo: https://github.com/econchick/interrogate
+  rev: 1.7.0
+  hooks:
+    - id: interrogate
+      exclude: ^(docs|tests)
+      args: [--config=pyproject.toml]
+
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.3.0
+  hooks:
+    - id: codespell
+      exclude: >
+          (?x)^(
+              .*\.yaml
+          )$
+      args:
+        - --ignore-words-list=pres
+
+- repo: https://github.com/asottile/add-trailing-comma
+  rev: v3.1.0
+  hooks:
+    - id: add-trailing-comma
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.5.7
+  hooks:
+    - id: ruff
+      args: ["--fix", "--show-fixes"]
+    - id: ruff-format
+
+- repo: https://github.com/nbQA-dev/nbQA
+  rev: 1.8.7
+  hooks:
+    - id: nbqa-check-ast
+    - id: nbqa-black
+    - id: nbqa-ruff
+      args: [
+        --fix,
+        --config=ruff.toml,
+        ]
+
+- repo: https://github.com/bdice/nb-strip-paths
+  rev: v0.1.0
+  hooks:
+    - id: nb-strip-paths
+
+- repo: https://github.com/tox-dev/pyproject-fmt
+  rev: 2.2.1
+  hooks:
+    - id: pyproject-fmt
+
+ci:
+    autofix_commit_msg: |
+        [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+        for more information, see https://pre-commit.ci
+    autofix_prs: false
+    autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+    autoupdate_schedule: monthly
+    skip: []
+    submodules: false

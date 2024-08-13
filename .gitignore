@@ -1,7 +1,12 @@
-*.egg-info/
-*.pyc
+_version.py
+.coverage
 .ipynb_checkpoints
-.pytest_cache
+.mypy_cache/
+.pytest_cache/
+.vscode/
+*.code-workspace
+*.egg*
+*.pyc
+**/__pycache__
 build/
 dist/
-docs/_build/
